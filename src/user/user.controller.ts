@@ -45,8 +45,9 @@ export default class UserController {
                 id: true,
                 name: true,
                 email: true,
-                create_at: true
-            }
+                create_at: true,
+                posts: true
+            },
         })
 
         if (!user) {
