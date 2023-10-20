@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { CreateUserDto, UpdateUserDto } from './user.dto'
 import { prisma } from '../config/prisma'
+import * as bcrypt from 'bcrypt'
 
 export default class UserController {
 
@@ -9,7 +10,6 @@ export default class UserController {
 
         const createUserDto = new CreateUserDto(body)
         await createUserDto.validate().then(async data => {
-
             const emailExist = await prisma.user.findFirst({
                 where: {
                     email: data.email
@@ -21,6 +21,10 @@ export default class UserController {
                     error: 'Email exists'
                 })
             }
+
+            const saltOrRound = 10
+            const hash = await bcrypt.hash(data.password, saltOrRound);
+            data.password = hash
 
             await prisma.user.create({
                 data: {
