@@ -7,7 +7,7 @@ const controller = new UserController()
 
 routes.post('/user', controller.create)
 routes.get('/user/:id', controller.findById)
-routes.put('/user', controller.update)
-routes.delete('/user', controller.delete)
+routes.put('/user/:id', controller.update)
+routes.delete('/user/:id', controller.delete)
 
 export default routes
